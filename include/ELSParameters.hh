@@ -120,56 +120,80 @@ public:
   // Return BeamLine Component ( Screen Monitor  )
   // parts-0 ( Frange )
   double rminSMff( int i ){ if( i==0 ) return RMin_SM1_FF;
-                            if( i==1 ) return RMin_SM2_FF; };
+                            if( i==1 ) return RMin_SM2_FF;
+			    return 0;};
   double rmaxSMff( int i ){ if( i==0 ) return RMax_SM1_FF;
-                            if( i==1 ) return RMax_SM2_FF; };
+                            if( i==1 ) return RMax_SM2_FF;
+			    return 0;};
   double lSMff( int i ){ if( i==0 ) return L_SM1_FF; 
-                         if( i==1 ) return L_SM2_FF; };
+                         if( i==1 ) return L_SM2_FF; 
+			 return 0;};
   double positionSMff( int i, int j ){ if( i==0 ) return position_SM1_FF[j]; 
-                                       if( i==1 ) return position_SM2_FF[j]; }; 
+                                       if( i==1 ) return position_SM2_FF[j]; 
+				       return 0;}; 
   double rminSMbf( int i ){ if( i==0 ) return RMin_SM1_BF;
-                            if( i==1 ) return RMin_SM2_BF; };
+                            if( i==1 ) return RMin_SM2_BF; 
+			    return 0;};
   double rmaxSMbf( int i ){ if( i==0 ) return RMax_SM1_BF;
-                            if( i==1 ) return RMax_SM2_BF; };
+                            if( i==1 ) return RMax_SM2_BF; 
+			    return 0;};
   double lSMbf( int i ){ if( i==0 ) return L_SM1_BF; 
-                         if( i==1 ) return L_SM2_BF; };
+                         if( i==1 ) return L_SM2_BF; 
+			 return 0;};
   double positionSMbf( int i, int j ){ if( i==0 ) return position_SM1_BF[j]; 
-                                       if( i==1 ) return position_SM2_BF[j]; };
+                                       if( i==1 ) return position_SM2_BF[j]; 
+				       return 0;};
   double rotationSMf( int i, int j ){ if( i==0 ) return rotation_SM1_F[j]; 
-                                      if( i==1 ) return rotation_SM2_F[j]; };
+                                      if( i==1 ) return rotation_SM2_F[j]; 
+				      return 0;};
   // parts-1
   double rminSMparts1( int i ){ if( i==0 ) return Rmin_SM1_parts1; 
-                               if( i==1 ) return Rmin_SM2_parts1; }
+                               if( i==1 ) return Rmin_SM2_parts1; 
+			       return 0; };
   double rmaxSMparts1( int i ){ if( i==0 ) return Rmax_SM1_parts1;
-                               if( i==1 ) return Rmax_SM2_parts1; }
+                               if( i==1 ) return Rmax_SM2_parts1; 
+			       return 0; };
   double lSMparts1( int i ){ if( i==0 ) return L_SM1_parts1;
-                            if( i==1 ) return L_SM2_parts1; };
+                            if( i==1 ) return L_SM2_parts1; 
+			    return 0; };
   double positionSMparts1( int i, int j ){ if( i==0 ) return position_SM1_parts1[j];
-                                           if( i==1 ) return position_SM2_parts1[j]; }; 
+                                           if( i==1 ) return position_SM2_parts1[j]; 
+					   return 0; }; 
   // parts-2
   double rminSMparts2( int i ){ if( i==0 ) return Rmin_SM1_parts2;
-                                if( i==1 ) return Rmin_SM2_parts2; }
+                                if( i==1 ) return Rmin_SM2_parts2; 
+				return 0; };
   double rmaxSMparts2( int i ){ if( i==0 ) return Rmax_SM1_parts2;
-                                if( i==1 ) return Rmax_SM2_parts2; }
+                                if( i==1 ) return Rmax_SM2_parts2; 
+				return 0; };
   double lSMparts2( int i ){ if( i==0 ) return L_SM1_parts2;
-                             if( i==1 ) return L_SM2_parts2; };
+                             if( i==1 ) return L_SM2_parts2; 
+			     return 0;};
   double positionSMparts2( int i, int j ){ if( i==0 ) return position_SM1_parts2[j]; 
-                                           if( i==1 ) return position_SM2_parts2[j]; };
+                                           if( i==1 ) return position_SM2_parts2[j]; 
+					   return 0;};
   // parts-3
   double rminSMparts3( int i ){ if( i==0 ) return Rmin_SM1_parts3;
-                                if( i==1 ) return Rmin_SM2_parts3; }
+                                if( i==1 ) return Rmin_SM2_parts3; 
+				return 0;}
   double rmaxSMparts3( int i ){ if( i==0 ) return Rmax_SM1_parts3;
-                                if( i==1 ) return Rmax_SM2_parts3; }
+                                if( i==1 ) return Rmax_SM2_parts3; 
+				return 0;}
   double lSMparts3( int i ){ if( i==0 ) return L_SM1_parts3;
-                             if( i==1 ) return L_SM2_parts3; };
+                             if( i==1 ) return L_SM2_parts3; 
+			     return 0;};
   double positionSMparts3( int i, int j ){ if( i==0 ) return position_SM1_parts3[j];
-                                           if( i==1 ) return position_SM2_parts3[j]; };
+                                           if( i==1 ) return position_SM2_parts3[j]; 
+					   return 0;};
   double rotationSMcomp( int i, int j ){ if( i==0 ) return rotation_SM1_comp[j]; 
-                                         if( i==1 ) return rotation_SM2_comp[j]; };
+                                         if( i==1 ) return rotation_SM2_comp[j]; 
+					 return 0;};
   double rotationSMduct( int i, int j ){ if( i==0 ) return rotation_SM1_duct[j]; 
-                                         if( i==1 ) return rotation_SM2_duct[j]; };
+                                         if( i==1 ) return rotation_SM2_duct[j]; 
+					 return 0;};
   double rotationSMbody( int i, int j ){ if( i==0 ) return rotation_SM1_body[j]; 
-                                         if( i==1 ) return rotation_SM2_body[j]; };
+                                         if( i==1 ) return rotation_SM2_body[j]; 
+					 return 0;};
 
   // Return BeamLine Component ( 90-deg Bending Magnet Duct  )
 
@@ -196,30 +220,38 @@ public:
   // BM Duct parts-1-3
   double sizeOuterBML( int i, int j ){ if(i==0) return size_of_BM_parts_1_outer[j]; 
                                        if(i==1) return size_of_BM_parts_2_outer[j];
-                                       if(i==2) return size_of_BM_parts_3_outer[j]; };
+                                       if(i==2) return size_of_BM_parts_3_outer[j]; 
+				       return 0;};
   double sizeInnerBML( int i, int j ){ if(i==0) return size_of_BM_parts_1_inner[j];
                                        if(i==1) return size_of_BM_parts_2_inner[j];
-                                       if(i==2) return size_of_BM_parts_3_inner[j]; };
+                                       if(i==2) return size_of_BM_parts_3_inner[j]; 
+				       return 0;};
   double positionOuterBML( int i, int j ){ if(i==0) return position_of_BM_parts_1_outer[j]; 
                                            if(i==1) return position_of_BM_parts_2_outer[j];
-                                           if(i==2) return position_of_BM_parts_3_outer[j]; }
+                                           if(i==2) return position_of_BM_parts_3_outer[j]; 
+					   return 0;}
   double positionInnerBML( int i, int j ){ if(i==0) return position_of_BM_parts_1_inner[j];
                                            if(i==1) return position_of_BM_parts_2_inner[j];
-                                           if(i==2) return position_of_BM_parts_3_inner[j]; }
+                                           if(i==2) return position_of_BM_parts_3_inner[j]; 
+					   return 0;}
 
   // BM Duct parts-1-3 Duct vacuum
   double sizeBMLvac( int i, int j ){  if(i==0) return size_of_BM_parts_1_vac[j];
                                       if(i==1) return size_of_BM_parts_2_vac[j];
-                                      if(i==2) return size_of_BM_parts_3_vac[j]; };
+                                      if(i==2) return size_of_BM_parts_3_vac[j]; 
+				      return 0;};
   double positionBMLvac( int i, int j ){ if(i==0) return position_of_BM_parts_1_vac[j];
                                          if(i==1) return position_of_BM_parts_2_vac[j];
-                                         if(i==2) return position_of_BM_parts_3_vac[j]; }
+                                         if(i==2) return position_of_BM_parts_3_vac[j]; 
+					 return 0;}
 
   // BM Duct parts-4(1-8)
   double sizeBMparts4m(int i, int j ){ if( i==0 ) return size_of_BM_parts_4_1[j]; 
-                                       if( i==1 ) return size_of_BM_parts_4_2[j]; };
+                                       if( i==1 ) return size_of_BM_parts_4_2[j]; 
+				       return 0;};
   double positionBMparts4m(int i, int j ){ if( i==0 )return position_of_BM_parts_4_1[j];
-                                           if( i==1 ) return position_of_BM_parts_4_2[j]; };
+                                           if( i==1 ) return position_of_BM_parts_4_2[j]; 
+					   return 0;};
   double rminBMparts43(void){ return Rmin_BM_parts_4_3; };
   double rmaxBMparts43(void){ return Rmax_BM_parts_4_3; };
   double lBMparts43(void){ return L_BM_parts_4_3; };

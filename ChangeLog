@@ -1,3 +1,5 @@
 2014-01-27:
 	* Setup GitHub repository for ELS code.
 	* Start filling in the structure and then begin to remove unnecessary information from previous experiments utilizing this code.
+	* Committing working version
+	* Cleaned up some of the warnings w.r.t. reaching non-void function.  Still get some about functions in PhysicsParameters.hh

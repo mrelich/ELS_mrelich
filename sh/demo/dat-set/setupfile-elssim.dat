@@ -1,0 +1,333 @@
+# ----------------------------------------------------------------
+#   SetUp File for ELS Beam Simulation  w/ Geant4
+# ----------------------------------------------------------------
+# World Size 
+#                X(m)         Y(m)         Z(m)         
+size_of_world   400.0        400.0        1200.0
+#size_of_world   200.0         200.0        1200.0
+
+# ELS Site Ground Height ( from Mirror #6 in BRM station )
+# This value measured by T.Stan-san 2011.04.07 
+# 2721.3 mm : from concrete pad surface to the top of the faraday cup
+# 254.0  mm : thickness of concrete pad ( my definition ) 
+#             thickness of concrete pad over ground is 127.0mm
+# The design value of the height of faraday cup   : 2,975.3 mm ? --> 2,721.3 + 127 = 2,848.3 mm   
+# The measured value of the height of faraday cup : 1,520 + 917.0 = 2,437 mm
+# The Bias height is - 411.3 mm  ( 2,437 - 2,848.3 = -411.3 mm )  
+#                        (m)       Error(+)     Error(-)     Sigma
+#elssite_ground_height  -411.3         0.            0.         1
+elssite_ground_height    0.0         0.            0.         1 
+
+# ---------------------------------------------------------------
+# ParameterName            Value 
+# Beam Mode
+# = 0 : Constant Value Mode ( use "primary_energy" )
+# = 1 : Gauusian Mode
+# = 2 : Crystal Ball Mode ( = Energy Spectrum Mode )
+# = 3 : Read File : Crystal Ball Mode ( = Energy Spectrum Mode )
+
+beam_energy_mode                1
+
+# ---------------------------------------------------------------
+# Particle ID		   Value
+# =  0	   : gamma	   
+# = -1	   : electron  (default)
+# =  1 	   : positron
+
+beam_particle_id 	       -1
+
+#----------------------------------------------------------------
+# Beam Waveform 
+electronbeam_waveform_flag      1         // =0: Not use, =1 : Use waveform 
+
+#electronbeam_waveform_file   /home/talinac/geant4/example/elsbeam-geant4/sh/bending-air-shower/dat-set/waveform.dat
+electronbeam_waveform_file   /home/mrelich/workarea/ara/ELS-geant4/elsbeam-geant4-ver140116/sh/demo/dat-set/waveform.dat
+electronbeam_waveform_dt         20.0     // unit = nm
+electronbeam_waveform_new_ntbin  60       // 
+
+# ---------------------------------------------------------------
+# OUTPUT FILE Selectrion
+# = 0 : OFF
+# = 1 : ON
+# Default value is 0 (OFF)
+outoputfileflag_detectorplane   0   # Checking the Shower Development
+outoputfileflag_secondparticle  0   # Checking the Second Particles
+outoputfileflag_dedx            0   # Checking the Energy Deposit by Ionization
+
+outoputfileflag_energydeposit   1   # Energy Deposit ... Final Output
+
+# ---------------------------------------------------------------
+# Constant Value or  Gauusian Mode
+# ParameterName            Value       Error(+)     Error(-)     Sigma
+#                             MeV  
+  primary_energy             40.00      0.0001        0.0001        1
+
+# Crystal Ball Mode ( = Energy Spectrum Mode )
+# ParameterName            Value       Error(+)     Error(-)     Sigma
+crystalball_mean            40.0        0.003        0.003        1 
+crystalball_sigma           0.2409      0.003        0.003        1
+crystalball_alpha           1.8209      0.09         0.09         1
+crystalball_n               0.67931     0.16         0.16         1
+
+crystalball_xmin            34.0
+crystalball_xmax            41.0
+# ------------------------------------------------------------------
+# Beam emittance mode select ( Beam Position & Momentum=Direction )
+# Default is 1 
+#  beam_emmitance_mode        0          // 0 : Square 
+   beam_emmitance_mode        1          // 1 : Gaussian
+#  beam_emmitance_mode        101102    
+#  beam_emmitance_mode        110530 
+
+#   Horizontal Beam 
+#                               mm
+#   injection_position_x      10834.3      0.0           0.0         1  
+#   injection_position_y     -1718.2       0.0           0.0         1  
+#   injection_position_z      889.0        0.0           0.0         1    # ... corrected poition by Stan-san's results
+
+#   injection_direction_x        1.0       0.0           0.0         1  
+#   injection_direction_y        0.0       0.0           0.0         1
+#   injection_direction_z        0.0       0.0           0.0         1
+
+# beam injection position shift ( unit = mm )  
+#  injection_position_sigma      11.0       0.0           0.0         1 
+   injection_position_sigma      0.001      0.0           0.0         1
+
+# Vertical Direction Beam
+#                             mm
+  injection_position_x     11486.2       0.0           0.0         1  
+  injection_position_y     -1718.2       0.0           0.0         1  
+  injection_position_z      2089.0      0.0            0.0         1   # ... corrected poition by Stan-san's results
+
+#-----------------------------------------------------------
+
+  injection_transverse_phi0_x  0.0     0.0    0.0       1
+  injection_transverse_phi0_y  0.0     0.0    0.0       1
+
+  injection_direction_x        0.0     0.0     0.0      1  
+  injection_direction_y        0.0     0.0     0.0      1  
+  injection_direction_z        1.0     0.0     0.0      1  
+
+#                              mm
+  injection_position_shift_x   0.0      0.0     0.0      1
+  injection_position_sigma_x   1.00    0.0     0.0      1   
+
+#                              mm  
+  injection_position_shift_y   0.0      0.0     0.0      1
+  injection_position_sigma_y   1.00    0.0     0.0      1   
+
+#-----------------------------------------------------------
+
+# -------------------------------------------------------------------
+# Energy Deposit Mesh        
+#  
+#  Segment Pathlength         unit = m
+   delta_pathlength            0.10    
+
+#  Mirror Position in BRM local coordinate    unit = m
+  position_of_mirror_6_BRM_coordinate_x      -2.166204217       // -2.166254023      // From TASoft 
+  position_of_mirror_6_BRM_coordinate_y      12.65404303        // From TASoft
+  position_of_mirror_6_BRM_coordinate_z       0.0              
+
+# Stan-san's Survey Result 2011.04.07
+#                           unit = deg 
+  angle_ELS_mirror_6         9.4618644       //9.453251474
+# Stan-san's result is 305 deg 58'  4.6"  CW from North
+#                      = 305.96794444 deg
+# angle_ELS_mirror_6 = 63.49392 - (360.0 - 305.96794444) = 9.4618644      
+
+# Stan-san's Survey Result 2011.04.07
+#                           unit = m
+ distance_ELS_from_mirror6  99.931  // 99.9931 is bug . bug fixed in 2011.11.26 // 100.0
+#                                      0.06% difference
+
+# angle between North and Y-axis of BRM Local corrdinate 
+#                           unit = deg
+ angle_north_yaxis_brm      63.49392 
+
+# Mesh Size ( Volume ) unit = m 
+ mesh_dx       0.2
+ mesh_dy       0.2
+ mesh_dz       0.2
+
+# Mesh Region  
+# x : (-1)mesh_xregion - mesh_xregion
+# y : (-1)mesh_yregion - mesh_yregion
+# z : 0 - mesh_zregion
+#             unit = m
+
+# mesh_xregion  100.0
+# mesh_yregion  100.0
+# mesh_zregion  200.0
+
+# mesh_xregion  200.0
+# mesh_yregion  200.0
+  mesh_xregion  400.0
+  mesh_yregion  400.0
+  mesh_zregion  600.0
+
+# -------------------------------------------------------------------
+# Atmosphere Condition 
+#
+#  Air Compositin from ***********************
+#   
+#    N2  = 78.084 (%)  
+#    O2  = 20.948 (%)  
+#    Ar  =  0.938 (%)  
+#    CO2 =  0.033 (%)     ... from Rikagaku-jiten, Iwanami-shoten(1998)
+#    H2O =  calculated from humidity
+# 
+#  Temperature        (deg-C)  deg-C = (deg-F-32)*5/9
+#                              K = deg-C + 273.15
+#  Pressure           (hPa) 
+#  Relative Humidity  (%)
+#  -- Reference --
+#  1 atm = 1013.2472 hPa
+# 
+
+# ParameterName            Value       Error(+)     Error(-)     Sigma
+   air_composition_N2     78.084       1.0           1.0        1    
+   air_composition_O2     20.946       1.0           1.0        1    
+   air_composition_Ar      0.930       1.0           1.0        1    
+   air_composition_CO2     0.040       1.0           1.0        1    
+
+# --- 
+# Used the weather parameters 
+
+# ParameterName            Value       Error(+)     Error(-)     Sigma
+ air_pressure            1013.2472    0.117558      0.117558    1    // unit = hPa
+ air_temperature           20.0       0.65971       0.65971     1    // unit = deg-C
+ air_relative_humidity      0.0        1.21503       1.21503     1    // %
+ 
+# Geomagnetic Field  added in 2012.01.20
+#    Calculation by "National Geophysical Data Center(NGDC)" using by IGRF11 model
+#         ** IGRF = International Geomagnetic Reference Field ***
+# http://www.ngdc.noaa.gov/geomag/geomag.shtml
+#   --> http://www.ngdc.noaa.gov/geomagmodels/struts/calcIGRFWMM
+#   --> http://www.ngdc.noaa.gov/geomagmodels/IGRFWMM.jsp
+#       by IGRF11 model
+#--------------------------------------------------------------------------------
+#
+# Location of ELS ( Measured by S.Thomas 2011.04.08 )
+# Site  Latitude [deg min sec]  Longitude [deg min sec]  height [m]
+#  ELS  Lat         39.18886562 (  39 11' 19.91622" N )
+#       Long       112.7127692  ( 112 42' 45.96929" W  )
+#       Elevation 1397.554 m
+# http://www.telescopearray.org/tawiki/index.php/CLF/FD_site_locations
+#---------------------------------------------------------------------------------
+# Location of BRMSite  Latitude [deg min sec]  Longitude [deg min sec]  height [m]
+# BRM ... this is used in ta-java simulation
+# BRM  Lat         39.18830 (   39 11' 17.88"  N )
+#      Long      -112.71170 ( -112 42' 42.12"  W )
+#      Elevation 1404 m
+# ELS  Lat         39.18884 (   39 11' 19.824" N )
+#      Long      -112.71269 ( -112 42' 45.684" W )
+#      Elevation 1404? m
+# http://www.telescopearray.org/tawiki/index.php/CLF/FD_site_locations
+#
+# --> geomagnetic field was calucalted from
+#             h=1445m Lat=39 11' 20" Longi=-112 42' 46"
+#             2012.11.12 - 1-year
+#  
+  geomagnetic_onoff          1                          // Off = 0 ; On = 1  
+  geomagnetic_declination    11.983333     0.0  0.0  1  // Declination : unit = degree
+  geomagnetic_horizontal     0.0000220554  0.0  0.0  1  // Horizontal GeoMagneticField : unit = Tesla
+  geomagnetic_vertical      -0.0000462875  0.0  0.0  1   // Vertical GeoMagneticField   : unit = Tesla
+
+# -------------------------------------------------------------------
+
+# Cu Collimator Diameter
+  cu_collimeter_d              10.0      // unit = mm : not need change 
+
+# Slit width  
+  slit_width                   0.0       // unit = mm : 2011.11.22 Run81 measurement value in Utah
+
+# -- Beam Dump Flag
+# = 0 : No Setup
+# = 1 : first version 
+# = 4 : July and Nov version 
+# = 5 : Vacuum chamber type : Latest Version
+# other is nothing 
+ faradaycup_flag               0
+
+# -- Beam Dump Flag faraday cup 4 ( we can define faraday cup 4 )
+# -- We don't use these parameters any more : 2013.April
+ faradaycup4_flag              0        // 0...Remove  1...SetUp
+ positionz_faradaycup4_front1  92.0     // unit = mm ;  distance from Top of Ti-window Frange
+ 			       	  	// 15.0mm is real distance in 2012.07.16
+ position_alongbeamline_faradaycup4    0.0  // unit = mm
+ position_transverse_faradaycup4       0.0  // unit = mm
+ # --------
+
+# -- Now we use this parameters, 2013.June.
+  faradaycup5_height           110.0     // unit = mm
+
+# ---- Screen Monitor 3
+# Screen monitor 3 was producted in 2011.Aug, and we used this in 2011.Nov.operation
+  screen_monitor3_flag           0       // 0...No setup  1...SetUp
+  positionz_screen_monitor3    179.5     // unit = mm   
+#                                        Screen Monitor 3 can be move to 179.0, 234.9mm, 334.9mm, 434.9mm
+
+# ---- Beam Energy Attenuator 
+# Beam Energy Attenuator was producted in 2011.Oct, and we used in 2011.Nov.operation
+# We used only Cu-t11mm attenuator
+# Added 4:Ta for testing collimator
+
+  beam_attenuator_flag        1         // 0...No setup  1...SetUp
+  beam_attenuator_material    1         // 1 = Cu, 2=Al, 3=Poly, 4=Ta, 5=Pb
+  length_beam_attenuator      0.1       // unit = mm
+#                                       Cu 6mm for 30MeV
+#                                          11mm for 20MeV
+#                                          16.8mm for 10MeV
+#                                       Al 18.5mm for 30MeV
+#                                          37mmm for 20MeV
+#                                          55.5mm for 10MeV
+#                                       Poly 52mm for 30MeV
+#                                            105mm for 20MeV
+#                                            158mm for 10MeV   
+
+# ---- Virtual Chamber ... dE/dX test chamber ... not real chamber !!!
+  virtual_chamber_flag       0       // 0...No setup  1...SetUp
+  positionz_virtual_chamber  5000.0  // From ground ; unit = mm 
+   
+# -- Magnetic Field Flag
+ bm_magnetic_field_flag       0         // 0...No Magnetic field.
+ bm_magnetic_field           40.00      // ( MeV ) ... Magnetic field, you decide as Energy.
+
+# -- Alignment Parameters        
+ cu_collimeter_shiftz         0.0       // unit	= mm ... + is	vertical	direction
+  
+ vertical_beamline_shift_x    0.0       // unit = mm ... +/- is west/east direction
+ vertical_beamline_shift_y    0.0       // unit = mm ... +/- is south/north direction  
+
+ bmyork_coil_shift_x          0.0       // unit = mm ... min is -35mm  
+ bmyork_coil_shift_y          0.0       // unit = mm ... default is 0mm
+ bmyork_coil_shift_z          0.0       // unit = mm ... max is +35mm
+  
+ slit_collimeter_shift_0      0.0       // unit  = mm ... west side ( + is west,  - is east direction )
+ slit_collimeter_shift_1      0.0       // unit  = mm ... east side ( + is east, - is west direction )
+
+# --- Faraday cup alignment is real value ... measured in Dec.17-18th.
+ faradaycup_shift_x           0.0       // unit  = mm ... +/- is west/east direction 
+ faradaycup_shift_y           0.0       // unit  = mm ... +/- is south/north direction ... modified in 2011.11.19
+ faradaycup_shift_z           0.0       // unit  = mm ... + is vertical direction
+
+# --- Coverbox hole alignment 
+ coverbox_hole_shift_x        0.0       // unit  = mm ... +/- is west/east direction
+ coverbox_hole_shift_y	      0.0       // unit  = mm ... +/- is south/north direction
+
+# -- Physics Proccess Flag
+ photo_nuclear_process_flag    0         //  0...No Photo-Nuclear Process.
+
+ cerenkov_process_flag         0         //  0...No Cerenkov Process.
+
+ cutlenght_particle            0.1       // unit  = mm  ... you should not change. 1.0 fixed  
+                                         //                 Cut Energy in Air of e+- 990 eV at 1.0mm
+                                         //                                          
+# ---------------------------------------------------------------   
+# END
+
+  
+
+
+

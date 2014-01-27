@@ -1,0 +1,132 @@
+====================================================
+ ReadMe : made in 2013.01.17 by Tatsunobu Shibata
+====================================================
+
+ Geant4 version : geant4-09-05-patch-01
+ The setup parameters for geant4.9.5 in ".bashrc" are described in 
+ "/elsbeam-geant4-ver140116/readme/bashrc".
+
+ My computer is 
+ OS     : Redora Core 9
+ Kernel : 2.6.25-14.fc9.i686 
+    
+ ===================================================
+ To compile the "elsbeam-geant4"
+ 
+ # tar -xvf elsbeam-geant4-ver140116.tar  
+ # cd ./elsbeam-geant4-ver140116
+ # make 
+   or 
+ # gmake 
+
+ If the compile is finished.
+ # cd ./sh
+ # cd ./demo
+
+ You can run the ELS simulation by "exec.sh".
+ I use "tcsh", and if you use other script, please modify.
+
+ # ./exec.sh
+
+ -----------------------------------------------------------
+ About Setting parameters.
+
+ (1) Number of primary particle.
+ The default is "1".
+ The parameter is "NEV" in "/elsbeam-geant4-ver140116/sh/demo/exec.sh", and you can change as you like. 
+ 
+ (2) Other parameters.
+ All of parameters are defined in "/elsbeam-geant4-ver140116/sh/demo/dat-set/setupfile-elssim.dat".
+ The default condition are as follows.
+
+   - Output files is "geant4-air-condition.dat" and "energydeposit.dat".
+     --"geant4-air-condition.dat" includes condition of the air.  
+     --"energydeposit.dat" includes the energy-deposit, and its position and time and so on.
+        --- The position of X and Y of energy-deposit are transformed from Geant4 coordinate to
+            the coordinate for TA-FD simulation. 
+     -- Other files will be made, but I remove in "/elsbeam-geant4-ver140116/sh/demo/exec.sh".
+     -- You can change some output file selection with "outoputfileflag_detectorplane",
+        "outoputfileflag_secondparticle", "outoputfileflag_dedx" and "outoputfileflag_energydeposit".
+        Some output files can be controlled in this file, and you must change is source code of 
+        the simulation.
+
+     -- Output file are made in 
+        "/elsbeam-geant4-ver140116/src/SteppingVerbose.cc" 
+        or "/elsbeam-geant4-ver140116/src/PrimaryGeneratorAction.cc" 
+        or "/elsbeam-geant4-ver140116/src/DetectorConstruction.cc"
+        
+   -Incident particle is electron.
+    --Parameter is "beam_particle_id"
+
+   -The incident energy is 40MeV.
+    --The energy distribution is single gaussian which mean is 40.0MeV and sigma is 0.0001MeV.
+      Parameters are "beam_energy_mode" and "primary_energy".
+
+   -The dirction is upward-going.
+    --Parameters are "injection_direction_x", "injection_direction_y" and "injection_direction_z".  
+       ---These values are not fluctuated.
+          If you want to fluctuate the dirction, you can change the parameter values of 
+          "injection_transverse_phi0_x" and "injection_transverse_phi0_y".
+
+   -The initial position is (X,Y,Z)=(11486.2mm,-1718.2mm,2089.0mm), 
+    --The origin of the coordinate is one of the edge of the ELS container.
+      X-Y plane is Horizontal plane.
+      Z direction is vertical.
+      Please see the "ELS-geant4-01.gif" and "ELS-geant4-02.gif".
+
+    --Parameters are "injection_position_x", "injection_position_y" and "injection_position_z".
+      ---These values are not fluctuated.
+         If you want to fluctuate the position, you can change the parameter values of
+         "injection_position_sigma_x" and "injection_position_sigma_y".
+  
+   -The air composition is 
+     N2  = 78.084 %
+     O2  = 20.946 %
+     Ar  =  0.93 %
+     CO2 = 0.4 %
+ 
+   - The weather parameters are     
+     Air pressure is 1013.2472 hPa, the parameter is "air_pressure".
+     Air Temperature is 20 degree-C, the parameter is "air_temperature".
+     Relative humidity is 0.0%, the parameter is "air_relative_humidity".
+     -- These value are not fluctuated and we can not fluctuate in this simulation.
+        I desctibe the error of each value in parameter definition, however we don't use.
+
+   - GeoMagnetic Field is ON
+     -- The parameter is "geomagnetic_onoff", and filed is deinfed with
+        "geomagnetic_declination", "geomagnetic_horizontal" and "geomagnetic_vertical".
+     
+  - No Cerenkov emission.
+     -- Parameter is "cerenkov_process_flag".
+
+   - Cut Length is 0.1mm 
+     -- The parameter is "cutlenght_particle".
+
+  These parameter are read with "/elsbeam-geant4-ver140116/src/ReadFile.cc".
+  If you add new parameter, please modify it.
+
+ =======================================================================================             
+
+ The comments about source code...
+
+ - ELS geometry parameters are calculated and defined in "/elsbeam-geant4-ver140116/src/ELSParameters.cc", 
+    and "/elsbeam-geant4-ver140116/src/DetectorConstruction.cc"
+   If you add "ICE" and "Detector" geometry, it is better that you modify them.
+
+   I defined  
+     - All of Beam Line components.
+       No electric devices, waveguides and cables.
+     - Lead blocks at vertical beam line and outside conclete blocks.
+     - Cover Box 
+     - Container 
+     - Conclete pad for ground of ELS container.
+       but No large ground plane.
+           
+ - Visualization is off in my code.
+   I commented out of about visualization in "/elsbeam-geant4-ver140116/elsbeam-geant4.cc".
+   Because my current PC can not run visualization program.
+   If you want to plot of visualization, please modify it.
+   
+  
+  
+ 

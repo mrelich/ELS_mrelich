@@ -1,5 +1,12 @@
-2014-01-27:
+
+2014-01-28 Matt
+	* Updated SteppingVerbose to be more modular.
+	* Cleaned up SteppingVerbose getting rid of all other output so I can build it up myself (helps with learning)
+	* Added RunTimeOptions which will hold running options and some useful constants... consider renaming.
+
+2014-01-27 Matt
 	* Setup GitHub repository for ELS code.
 	* Start filling in the structure and then begin to remove unnecessary information from previous experiments utilizing this code.
 	* Committing working version
 	* Cleaned up some of the warnings w.r.t. reaching non-void function.  Still get some about functions in PhysicsParameters.hh
+

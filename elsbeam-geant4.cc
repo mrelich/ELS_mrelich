@@ -33,7 +33,37 @@
 #include "G4VisExecutive.hh"
 #endif
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------//
+// Help Menu
+//----------------------------------------------------------------------//
+void help()
+{
+  
+  cout<<"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="<<endl;
+  cout<<endl;
+  cout<<"Options: "<<endl;
+  cout<<"\t-d <int>"<<endl;
+  cout<<"\t\tSets the number of events"<<endl;
+  cout<<"\t-i <filename>"<<endl;
+  cout<<"\t\tSpecify the generator filename"<<endl;
+  cout<<"\t-s <filename>"<<endl;
+  cout<<"\t\tSpecify the setup filename"<<endl;
+  cout<<"\t-v <int>"<<endl;
+  cout<<"\t\tSpecify visulization on or off (0 off, 1 on)"<<endl;
+  cout<<"\t-e"<<endl;
+  cout<<"\t\tTurn on energy dump option"<<endl;
+  cout<<"\t-i"<<endl;
+  cout<<"\t\tTurn on quick check method"<<endl;
+  cout<<"\t-h"<<endl;
+  cout<<"\t\tPrint this menu"<<endl;
+  cout<<endl;
+  cout<<"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="<<endl;
+  cout<<endl;
+}
+
+//----------------------------------------------------------------------//
+// Main
+//----------------------------------------------------------------------//
 int main(int argc,char** argv) {
 
   // Set the random seed to the timer                                                                                                       
@@ -45,72 +75,39 @@ int main(int argc,char** argv) {
   int visualization = 0;
   int number_of_Events = 1;
   char* GeneratorFilename="gene.dat";
-  char* OutputFilename0="detector-plane.dat";
-  char* OutputFilename1="generated.dat";
-  char* OutputFilename2="dedx.dat";
-  char* OutputFilename3="faradaycup.dat";
-  char* OutputFilename4="energydeposit.dat";
-  char* mattOutput="matt_test.dat";
   char* SetupFilename="setup-file.dat";
+  RunOption runOpt = RO_NULL;
+  
   //---------------------------
-
-  int c(-1);
-  while(1){
-    c = getopt(argc, argv, "d:i:o:g:k:f:e:s:v:m:r");
-    if(c==-1) break;
-    switch(c){
-    case 'd':
-      number_of_Events  = atoi(optarg);   
-      break;
-    case 'i':
-      GeneratorFilename = optarg;
-      break;
-    case 'o':
-      OutputFilename0   = optarg;   // detector-plane.dat
-      break;
-    case 'g':
-      OutputFilename1   = optarg;   // generated.dat
-      break;
-    case 'k':
-      OutputFilename2   = optarg;   // dedx.dat
-      break;
-    case 'f':
-      OutputFilename3   = optarg;   // faradaycup.dat
-      break;
-    case 'e':
-      OutputFilename4   = optarg;   // energydeposit.dat
-      break;
-    case 'm':
-      mattOutput = optarg;
-      break;
-    case 's':
-      SetupFilename = optarg;
-      break;
-    case 'v':
-      visualization = atoi(optarg);
-      break;
-    case 'r':
-      break;
-    default:
-      exit(1);
+  for(int i=1; i<argc; ++i){
+    if( strcmp(argv[i], "-d") == 0 )
+      number_of_Events = atoi( argv[++i] );
+    else if( strcmp(argv[i], "-i") == 0 )
+      GeneratorFilename = argv[++i];
+    else if( strcmp(argv[i], "-s") == 0 )
+      SetupFilename = argv[++i];
+    else if( strcmp(argv[i], "-v") == 0 )
+      visualization = atoi(argv[++i]);
+    else if( strcmp(argv[i], "-e") == 0 )
+      runOpt = (RunOption) (runOpt | RO_EnergyDump);
+    else if( strcmp(argv[i], "-q") == 0 )
+      runOpt = (RunOption) (runOpt | RO_QuickCheck);
+    else{
+      help();
+      return 0;
     }
-  }
+  }//end loop over arguments
 
+  
   //--------------------------------
   // Read Setup File
   Plist *plist;
   plist = new Plist();
   plist->readfile(SetupFilename);
   //--------------------------------
-
+  
   //my Verbose output class
-  G4VSteppingVerbose::SetInstance(new SteppingVerbose( plist,
-                                                       OutputFilename0,
-                                                       OutputFilename1,
-                                                       OutputFilename2,
-                                                       OutputFilename3,
-                                                       OutputFilename4,
-						       mattOutput));
+  G4VSteppingVerbose::SetInstance(new SteppingVerbose( plist, runOpt ) );
 
   // Run manager
   G4RunManager * runManager = new G4RunManager;
@@ -191,3 +188,4 @@ int main(int argc,char** argv) {
   return 0;
 }
 //----------------------------------------------------------------------
+

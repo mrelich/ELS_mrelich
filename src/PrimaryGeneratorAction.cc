@@ -13,8 +13,8 @@
 
 PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* myDC,
                                                Plist *plist,
-                                               G4int Nevents,
-                                               char* Fname )
+                                               char* Fname,
+					       G4int Nparticles)
   :myDetector(myDC)  
 {
   EventNumberFile.open("eventnumber.dat");
@@ -109,8 +109,9 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* myDC,
   //-----------------------------------------------------
 
   //-----------------------------------------------------
-  G4int n_particle = 1;
-  particleGun = new G4ParticleGun(n_particle);
+  //G4int n_particle = 1;  
+  //particleGun = new G4ParticleGun(n_particle);
+  particleGun = new G4ParticleGun(Nparticles);
 
   /* Time Offset by Waveform */ 
   // read waveform function ... 

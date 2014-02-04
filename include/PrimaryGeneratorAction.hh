@@ -22,8 +22,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 public:
   PrimaryGeneratorAction(DetectorConstruction*,
                          Plist *plist,
-                         G4int Nevents,
-                         char* Fname );
+                         char* Fname,
+			 G4int Nparticles);
   ~PrimaryGeneratorAction();
 
   Ebeam *ebeam;

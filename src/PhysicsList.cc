@@ -216,7 +216,7 @@ void PhysicsList::ConstructProcess()
   
   // Standrd Processcd 
   ConstructEM(); 
-  // ConstructMyEM();
+  //ConstructMyEM();
   // ConstructEM_Dmitri();
 
   // Lowenergy Process
@@ -304,27 +304,28 @@ void PhysicsList::ConstructMyEM() // added in 2012.05.10
       // eIoni->SetStepFunction(0.2, 1.0*mm);  // same as standars process 
       // eIoni->SetStepFunction(0.2, 100.0*um);   // same as lowenergy process
       eIoni->SetStepFunction(0.2, 1.0*mm);   
-
+      
       ph->RegisterProcess(eIoni, particle);
-
+      
       ph->RegisterProcess(new G4eBremsstrahlung(), particle);
-
+      
       ph->RegisterProcess(new G4eplusAnnihilation(), particle);
-
+      
     }
-
+    
   }
-
-    G4EmProcessOptions emOptions;
-    // multiple coulomb scattering 
-    // emOptions.SetMscStepLimitation(fMinimal);  // same as standars process 
-    emOptions.SetMscStepLimitation(fUseSafety);   // same as standars process 
-    // emOptions.SetMscStepLimitation(fUseDistanceToBoundary); // same as lowenergy process 
-
-    // try 01 & 02 & 12
-    emOptions.SetMscRangeFactor(0.04);
-    emOptions.SetMscGeomFactor(2.5);
-    emOptions.SetSkin(3.0);    
+  
+  G4EmProcessOptions emOptions;
+  // multiple coulomb scattering 
+  // emOptions.SetMscStepLimitation(fMinimal);  // same as standars process 
+  emOptions.SetMscStepLimitation(fUseSafety);   // same as standars process 
+  // emOptions.SetMscStepLimitation(fUseDistanceToBoundary); // same as lowenergy process 
+  
+  // try 01 & 02 & 12
+  //emOptions.SetMscRangeFactor(0.04);
+  //emOptions.SetMscGeomFactor(2.5);
+  //emOptions.SetSkin(3.0);    
+  emOptions.SetMinEnergy(0.611*MeV);
 
 }
 
@@ -384,17 +385,17 @@ void PhysicsList::ConstructEM()
       pmanager->AddProcess(new G4eMultipleScattering, -1, 1, 1);
       pmanager->AddProcess(new G4eIonisation,         -1, 2, 2);
       pmanager->AddProcess(new G4eBremsstrahlung,     -1, 3, 3);
-
+      
       /* use as default */      
       //pmanager->AddProcess(new G4eBremsstrahlung,   -1, -1,3);    
       pmanager->AddProcess(new G4eplusAnnihilation,    0,-1, 4);
 
     } else {
-
-       // EM Standard
-       // Comment out in 2011.12.30 because of update g4.9.4p02
-       // pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
-         pmanager->AddProcess(new G4eMultipleScattering,-1, 1,1);
+      
+      // EM Standard
+      // Comment out in 2011.12.30 because of update g4.9.4p02
+      // pmanager->AddProcess(new G4MultipleScattering,-1, 1,1);
+      pmanager->AddProcess(new G4eMultipleScattering,-1, 1,1);
 
     }
 
@@ -694,6 +695,11 @@ void PhysicsList::SetCuts()
   SetCutsWithDefault();
   if (verboseLevel>0) DumpCutValuesTable();
 
+  //defaultCutValue = 1.5 * mm;
+  //SetCutValue(defaultCutValue, "gamma");
+  //SetCutValue(defaultCutValue, "e-");
+  //SetCutValue(defaultCutValue, "e+");
+
   //-----------------------
   // Geant4.9.2.p02
   // -->Geant4.9.5
@@ -701,7 +707,9 @@ void PhysicsList::SetCuts()
   /* 250eV and 990eV have same results */
   //G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(250*eV, 1*GeV);  // not be used 
 
-  G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(990.0*eV, 1*GeV); // <-- we can use this
+  //G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(990.0*eV, 1*GeV); // <-- we can use this
+  // I don't know if this is actually doing anything...
+  G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(0.611*MeV, 100*GeV); // <-- we can use this
 
   //G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(500*eV, 100*GeV); // <-- we can use this
   //G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(100*eV, 100*GeV); // <-- we can use this

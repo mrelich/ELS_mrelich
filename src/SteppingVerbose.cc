@@ -71,8 +71,9 @@ SteppingVerbose::SteppingVerbose( Plist *plist, RunOption runOpt ){
   // I don't think I need all of these files
   // Consider removing and condensing this code
   // UPDATE
-  if( runOpt & RO_EnergyDump ) EnergyDumpFile.open("energyDump.dat");
-  if( runOpt & RO_QuickCheck ) QuickDumpFile.open("quickDump.dat");
+  m_runOpt = runOpt;
+  if( runOpt & RO_EnergyDump ) EnergyDumpFile.open("ELS_output/energyDump.dat");
+  if( runOpt & RO_QuickCheck ) QuickDumpFile.open("ELS_output/quickDump.dat");
 
   // Set some beam constants
   CenterofBeamInjection[0] = 11486.2;  // unit=mm
@@ -85,6 +86,8 @@ SteppingVerbose::SteppingVerbose( Plist *plist, RunOption runOpt ){
 
   ChargeDeposit_in_FaradayCup=0;
 
+
+  m_hackEvent = -1;
 }
 
 //------------------------------------------------------------------------//
@@ -107,8 +110,17 @@ SteppingVerbose::~SteppingVerbose()
 //------------------------------------------------------------------------//
 void SteppingVerbose::StepInfo()
 {
+
   CopyState();
-  G4int prec = G4cout.precision(3);
+
+  //if( fTrack->GetKineticEnergy()/MeV < 100 )
+  //if( fTrack->GetKineticEnergy()/MeV < 0.611 )
+  //fTrack->SetTrackStatus(fStopAndKill);
+
+  //if( m_runOpt & RO_EnergyDump ) energyDump();
+  if( m_runOpt & RO_QuickCheck ) quickCheck();
+
+  StepCount++;
 
   /*
   TrackID             : fTrack->GetTrackID()
@@ -316,7 +328,7 @@ void SteppingVerbose::energyDump()
 //------------------------------------------------------------------------//
 // My silly quick method
 //------------------------------------------------------------------------//
-void SteppingVerbose::quickMethod()
+void SteppingVerbose::quickCheck()
 {
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
   // This will be the output I want to analyze.  I am 
@@ -327,23 +339,25 @@ void SteppingVerbose::quickMethod()
 
   // New output code
   // First let's try to construct the shower shape
-  if( fTrack->GetVolume()->GetName() == "ICE" ){
-    // Only consider e+ and e-
-    //if( ParticleID == 1 || ParticleID == -1 ){
+  // Only consider e+ and e-
+  //if( ParticleID == 1 || ParticleID == -1 ){
+  if( fTrack->GetVolume()->GetName() == "ICE"){
+
     QuickDumpFile <<
-      fStep->GetPostStepPoint()->GetPosition().x()/m <<" "<<
-      fStep->GetPostStepPoint()->GetPosition().y()/m <<" "<<
-      fStep->GetPostStepPoint()->GetPosition().z()/m <<" "<<
+      fStep->GetPostStepPoint()->GetPosition().x()/cm <<" "<<
+      fStep->GetPostStepPoint()->GetPosition().y()/cm <<" "<<
+      fStep->GetPostStepPoint()->GetPosition().z()/cm <<" "<<
+      fStep->GetStepLength()/cm <<" "<<
       fTrack->GetKineticEnergy()/MeV<<" "<<
       fStep->GetTotalEnergyDeposit()/MeV<<" "<<
-      ParticleID<<" "<<
-      fTrack->GetTrackID()<<" "<<
       fTrack->GetParticleDefinition()->GetPDGEncoding()<<" "<<
+      fTrack->GetTrackID()<<" "<<
+      fTrack->GetParentID()<<" "<<
+      CreatedProcess<<" "<<
       G4endl;	       
-  }// end check
+    }// end check
   
   
-  StepCount++;
 }
 
 //------------------------------------------------------------------------//
@@ -401,9 +415,9 @@ void SteppingVerbose::TrackingStarted()
   InitialVolumeID = -1;
   StoppedVolumeID = -1;
   
-  if( ParticleTrackID == 2 &&
-      abs(ParticleID) == 1 &&
-      InitialPosition.z()/m > 2.4 ){
+  //if( ParticleTrackID == 2 &&
+  //abs(ParticleID) == 1 &&
+  if( InitialPosition.z()/m > 4 ){
     
     /*
       OutputFile100 
@@ -420,12 +434,12 @@ void SteppingVerbose::TrackingStarted()
       << G4endl;
     */
     
-    if( fTrack->GetVolume()->GetName() == "FC4Body" ) InitialVolumeID = 1;
+    /*if( fTrack->GetVolume()->GetName() == "FC4Body" ) InitialVolumeID = 1;
     if( fTrack->GetVolume()->GetName() == "FC4GNDLayer" ) InitialVolumeID = 2;
     if( fTrack->GetVolume()->GetName() == "FC4ShieldLayer" ) InitialVolumeID = 3;
     if( fTrack->GetVolume()->GetName() == "FC4TopPlate" ) InitialVolumeID = 4;
     if( fTrack->GetVolume()->GetName() == "FC4Iso1" ) InitialVolumeID = 5;
-    if( fTrack->GetVolume()->GetName() == "FC4Iso2" ) InitialVolumeID = 6;
+    if( fTrack->GetVolume()->GetName() == "FC4Iso2" ) InitialVolumeID = 6;*/
     
     if( fTrack->GetCreatorProcess()->GetProcessName()=="msc" )   CreatedProcess = 0;
     if( fTrack->GetCreatorProcess()->GetProcessName()=="eIoni" ) CreatedProcess = 1;
@@ -441,7 +455,7 @@ void SteppingVerbose::TrackingStarted()
   //--------------------------------------------------------
   // Kill paritcles except gamma,e+-,opticalphoton,geantino 
   //--------------------------------------------------------
-  // Why is this needed??  We don't want to sondier hadronic shower in here?
+  // Why is this needed??  We don't want to simulate hadronic shower in here?
   if( ParticleID == 2 || ParticleID == -2 ||
       ParticleID == 3 || ParticleID == -3 ||
       ParticleID == 4 || ParticleID == -4 ||
@@ -449,8 +463,17 @@ void SteppingVerbose::TrackingStarted()
       ParticleID == 100 ) {
     fTrack->SetTrackStatus(fStopAndKill);
   }
+
+  //if( fTrack->GetKineticEnergy()/MeV < 100 )
+  //if( fTrack->GetKineticEnergy()/MeV < 0.611 )
+  //fTrack->SetTrackStatus(fStopAndKill);
   
-  
+  if( fTrack->GetTrackID() == 1 ){
+    if( m_hackEvent >= 0 )
+      QuickDumpFile << "End" << G4endl;
+    m_hackEvent++;
+    QuickDumpFile << "Event: " << m_hackEvent << G4endl;
+  }
   //G4cout.precision(prec);
 }
 

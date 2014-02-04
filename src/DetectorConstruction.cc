@@ -273,7 +273,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ICE Properties
   G4Material* ICE =  new G4Material("ICE", density=0.920*g/cm3, nel=2,
 				    kStateSolid, 216.15*kelvin);
-  
 
   ICE->AddElement(H, 2 );
   ICE->AddElement(O, 1 );

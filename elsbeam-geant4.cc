@@ -42,8 +42,10 @@ void help()
   cout<<"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="<<endl;
   cout<<endl;
   cout<<"Options: "<<endl;
-  cout<<"\t-d <int>"<<endl;
+  cout<<"\t-ne <int>"<<endl;
   cout<<"\t\tSets the number of events"<<endl;
+  cout<<"\t-np <int>"<<endl;
+  cout<<"\t\tSets the number of particles"<<endl;
   cout<<"\t-i <filename>"<<endl;
   cout<<"\t\tSpecify the generator filename"<<endl;
   cout<<"\t-s <filename>"<<endl;
@@ -74,14 +76,17 @@ int main(int argc,char** argv) {
   // GEANT EVENT SET 
   int visualization = 0;
   int number_of_Events = 1;
+  int number_of_Particles = 1; // # generated particles
   char* GeneratorFilename="gene.dat";
   char* SetupFilename="setup-file.dat";
   RunOption runOpt = RO_NULL;
   
   //---------------------------
   for(int i=1; i<argc; ++i){
-    if( strcmp(argv[i], "-d") == 0 )
+    if( strcmp(argv[i], "-ne") == 0 )
       number_of_Events = atoi( argv[++i] );
+    else if( strcmp(argv[i], "-np") == 0 )
+      number_of_Particles = atoi( argv[++i] );
     else if( strcmp(argv[i], "-i") == 0 )
       GeneratorFilename = argv[++i];
     else if( strcmp(argv[i], "-s") == 0 )
@@ -144,8 +149,8 @@ int main(int argc,char** argv) {
   // UserAction classes
   runManager->SetUserAction(new PrimaryGeneratorAction(FCdetector,
                                                        plist,
-                                                       1, //number_of_Events,
-                                                       GeneratorFilename));
+                                                       GeneratorFilename,
+						       number_of_Particles));
 
   runManager->SetUserAction(new RunAction);
   runManager->SetUserAction(new EventAction);

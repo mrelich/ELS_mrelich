@@ -2359,11 +2359,12 @@ void ELSParameters::els_parameter_initialize(Plist *plist)
     //==================================
     ice_position[0] = Total_Beam_Length_H2;
     ice_position[1] = position_of_beam_start[1];
-    ice_position[2] = 7500.0; //5000.0; // mm -- this needs to be above concrete walls.  See picture from chat
+    //ice_position[2] = 7500.0; //5000.0; // mm -- this needs to be above concrete walls.  See picture from chat
+    ice_position[2] = 10000; //7500.0; //5000.0; // mm -- this needs to be above concrete walls.  See picture from chat
 
     ice_size[0] = 500.0;   //mm
     ice_size[1] = 4000.0;  //mm
-    ice_size[2] = 5000.0;   //mm
+    ice_size[2] = 10000.0; //5000.0;   //mm
 
     ice_rotation[0] = 0.; // no rotation for now
     ice_rotation[1] = 0.;

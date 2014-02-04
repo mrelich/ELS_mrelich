@@ -38,7 +38,7 @@ beam_particle_id 	       -1
 
 #----------------------------------------------------------------
 # Beam Waveform 
-electronbeam_waveform_flag      1         // =0: Not use, =1 : Use waveform 
+electronbeam_waveform_flag      0         // =0: Not use, =1 : Use waveform 
 
 #electronbeam_waveform_file   /home/talinac/geant4/example/elsbeam-geant4/sh/bending-air-shower/dat-set/waveform.dat
 electronbeam_waveform_file   /home/mrelich/workarea/ara/ELS-geant4/elsbeam-geant4-ver140116/sh/demo/dat-set/waveform.dat
@@ -60,7 +60,10 @@ outoputfileflag_energydeposit   1   # Energy Deposit ... Final Output
 # Constant Value or  Gauusian Mode
 # ParameterName            Value       Error(+)     Error(-)     Sigma
 #                             MeV  
-  primary_energy             40.00      0.0001        0.0001        1
+#  primary_energy             30.00      0.0001        0.0001        1
+#  primary_energy             1000.00      0.0001        0.0001        1
+  primary_energy             100000.00      0.0001        0.0001        1
+#  primary_energy             1000000.00      0.0001        0.0001        1
 
 # Crystal Ball Mode ( = Energy Spectrum Mode )
 # ParameterName            Value       Error(+)     Error(-)     Sigma
@@ -322,6 +325,7 @@ crystalball_xmax            41.0
  cerenkov_process_flag         0         //  0...No Cerenkov Process.
 
  cutlenght_particle            0.1       // unit  = mm  ... you should not change. 1.0 fixed  
+# cutlenght_particle            1.0       // unit  = mm  ... you should not change. 1.0 fixed  
                                          //                 Cut Energy in Air of e+- 990 eV at 1.0mm
                                          //                                          
 # ---------------------------------------------------------------   

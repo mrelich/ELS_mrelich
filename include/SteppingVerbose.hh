@@ -74,7 +74,7 @@ private:
   // complexity of specifying the flags in the setup 
   // file.
   void energyDump();
-  void quickMethod();
+  void quickCheck();
   
   // I am not sure if I will keep these
   // TO BE DELETED
@@ -140,8 +140,9 @@ private:
   //G4ThreeVector OpticalPhotonVStartEarth;
   //G4ThreeVector OpticalPhotonVEndEarth;
   //G4ThreeVector OpticalPhotonVector;
-  
-  
+
+  RunOption m_runOpt;
+  G4int m_hackEvent;
 };
 
 #endif

@@ -15,8 +15,8 @@
 enum RunOption
 {
   RO_NULL       = 0,
-  RO_EnergyDump = 1<<0,
-  RO_QuickCheck = 1<<1
+  RO_Tracking   = 1<<0,
+  RO_Stepping   = 1<<1
 };
 
 //------------------------------//

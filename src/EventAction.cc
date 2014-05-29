@@ -6,21 +6,55 @@
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
 
-EventAction::EventAction(){}
-EventAction::~EventAction(){}
+//------------------------------------------------//
+// Constructor
+//------------------------------------------------//
+EventAction::EventAction(std::ofstream* trkOut,
+			 std::ofstream* stepOut) :
+  m_trkOut(NULL),
+  m_stepOut(NULL)
+{
+  
+  m_trkOut = trkOut;
+  m_stepOut = stepOut;
+  
+}
 
-void EventAction::BeginOfEventAction(const G4Event*){}
+//------------------------------------------------//
+// Destructor
+//------------------------------------------------//
+EventAction::~EventAction()
+{
+
+  m_trkOut  = NULL;
+  m_stepOut = NULL;
+}
+
+//------------------------------------------------//
+// Begin
+//------------------------------------------------//
+void EventAction::BeginOfEventAction(const G4Event* evt)
+{
+
+  G4int event_id = evt->GetEventID();
+  if(m_trkOut)  (*m_trkOut)  << "Event " << event_id << G4endl;
+  if(m_stepOut) (*m_stepOut) << "Event " << event_id << G4endl;
+
+}
+
+//------------------------------------------------//
+// End
+//------------------------------------------------//
 void EventAction::EndOfEventAction(const G4Event* evt)
 {
   G4int event_id = evt->GetEventID();
 
-  // get number of stored trajectories
-  G4TrajectoryContainer* trajectoryContainer = evt->GetTrajectoryContainer();
-  G4int n_trajectories = 0;
-  if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
-
   // periodic printing
-  G4cout << "Event# = " << event_id << " :  " << G4endl;
-     // n_trajectories  << " trajectories stored in this event." << G4endl;
+  if( event_id % 50 == 0 )
+    G4cout << "Event# = " << event_id << " :  " << G4endl;
 
+
+  // Save that event is over
+  if(m_trkOut)  (*m_trkOut)  << "End " << event_id << G4endl;
+  if(m_stepOut) (*m_stepOut) << "End " << event_id << G4endl;
 }

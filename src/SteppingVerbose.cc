@@ -72,8 +72,8 @@ SteppingVerbose::SteppingVerbose( Plist *plist, RunOption runOpt ){
   // Consider removing and condensing this code
   // UPDATE
   m_runOpt = runOpt;
-  if( runOpt & RO_EnergyDump ) EnergyDumpFile.open("ELS_output/energyDump.dat");
-  if( runOpt & RO_QuickCheck ) QuickDumpFile.open("ELS_output/quickDump.dat");
+  EnergyDumpFile.open("ELS_output/energyDump.dat");
+  QuickDumpFile.open("ELS_output/quickDump.dat");
 
   // Set some beam constants
   CenterofBeamInjection[0] = 11486.2;  // unit=mm
@@ -118,7 +118,7 @@ void SteppingVerbose::StepInfo()
   //fTrack->SetTrackStatus(fStopAndKill);
 
   //if( m_runOpt & RO_EnergyDump ) energyDump();
-  if( m_runOpt & RO_QuickCheck ) quickCheck();
+  quickCheck();
 
   StepCount++;
 

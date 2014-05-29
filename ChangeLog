@@ -1,3 +1,8 @@
+2014-05-29 Matt:
+	* Returning to this set of code after exploring everything using IceBlock. 
+
+2014-03-12 Matt
+	* Finally have figured out my issue with particle counting and returning.  I will update the code to geant4.10.00.
 
 2014-01-28 Matt
 	* Updated SteppingVerbose to be more modular.

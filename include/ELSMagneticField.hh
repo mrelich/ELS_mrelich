@@ -11,6 +11,8 @@
 #include "G4MagneticField.hh"
 
 #include "ELSParameters.hh"
+#include "G4SystemOfUnits.hh"
+
 
 class ELSParameters;
 class ELSMagnetic : public G4MagneticField

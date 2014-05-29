@@ -21,6 +21,7 @@
 #include <CLHEP/Vector/ThreeVector.h>
 #include <CLHEP/Vector/Rotation.h>
 #include "EnergyDepositMesh.hh"
+#include "G4SystemOfUnits.hh"
 
 #include "RunTimeOptions.hh"
 

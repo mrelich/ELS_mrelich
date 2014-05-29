@@ -10,6 +10,7 @@
 
 #include "globals.hh"
 #include "G4MagneticField.hh"
+#include "G4SystemOfUnits.hh"
 
 class GeoMagnetic : public G4MagneticField
 {

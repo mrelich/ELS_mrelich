@@ -26,7 +26,8 @@ elssite_ground_height    0.0         0.            0.         1
 # = 2 : Crystal Ball Mode ( = Energy Spectrum Mode )
 # = 3 : Read File : Crystal Ball Mode ( = Energy Spectrum Mode )
 
-beam_energy_mode                1
+#beam_energy_mode                1
+beam_energy_mode                0
 
 # ---------------------------------------------------------------
 # Particle ID		   Value
@@ -62,6 +63,7 @@ outoputfileflag_energydeposit   1   # Energy Deposit ... Final Output
 #                             MeV  
 #  primary_energy             30.00      0.0001        0.0001        1
 #  primary_energy             1000.00      0.0001        0.0001        1
+#  primary_energy             10000.00      0.0001        0.0001        1
   primary_energy             100000.00      0.0001        0.0001        1
 #  primary_energy             1000000.00      0.0001        0.0001        1
 

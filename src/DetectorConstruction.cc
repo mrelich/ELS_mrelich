@@ -271,25 +271,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   H2O->AddElement(O, 1 );
   
   // ICE Properties
-  G4Material* ICE =  new G4Material("ICE", density=0.920*g/cm3, nel=2,
-				    kStateSolid, 216.15*kelvin);
+  //G4Material* ICE =  new G4Material("ICE", density=0.920*g/cm3, nel=2,
+  //kStateSolid, 216.15*kelvin);
+  
+  //ICE->AddElement(H, 2 );
+  //ICE->AddElement(O, 1 );
+  
+  G4Material* ICE = new G4Material("ICE", density=11.34*g/cm3, nel=1, kStateSolid, 293*kelvin);
+  ICE->AddElement(Pb, 1);
 
-  ICE->AddElement(H, 2 );
-  ICE->AddElement(O, 1 );
-  
-  // Give one characteristic property for now.  
-  // This is *wrong* however, the chart for ICE properties doesn't
-  // extend into radio regime: http://refractiveindex.info/?group=CRYSTALS&material=H2O-ice  
-  //const G4int ICE_ENTRIES = 1;
-  //G4double ppckov[ICE_ENTRIES]     = {4.0 * eV};
-  //G4double rindex[ICE_ENTRIES]     = {1.3015};
-  //G4double absorption[ICE_ENTRIES] = {1450.0*cm};
-  
-  //G4MaterialPropertiesTable *ICE_PROP = new G4MaterialPropertiesTable();
-  //ICE_PROP->AddProperty("RINDEX",ppckov,rindex,ICE_ENTRIES);
-  //ICE_PROP->AddProperty("ABSLENGTH",ppckov,absorption,ICE_ENTRIES);
-  
-  //ICE->SetMaterialPropertiesTable(ICE_PROP);
   
   // Aluminium Oxide
   G4Material* Al2O3 = new G4Material("Al2O3",  density=3.97*g/cm3, nel=2 );
@@ -531,6 +521,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    //-------------------------------------------------------------------------------------- 
 
   // Vaccum ============================================================
+   double universe_mean_density = 1.e-25*g/cm3; // used to be a constant. Adding by hand
   G4Material* Vacuum = new G4Material("Vacuum", density=universe_mean_density, nel=1,
 				      //kStateGas, 2.73*kelvin, 3.e-18*pascal );
                                         kStateGas, 2.73*kelvin, 1.e-25*pascal );
@@ -2252,8 +2243,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
    // Ground Layer (G4Polycone)                
 
-      const G4int numZPlanesGNDLayerFC4 = elsparam->numZPlanesGNDLayerFC4();
-      for( int i=0; i<numZPlanesGNDLayerFC4; i++ ){
+      const G4int mynumZPlanesGNDLayerFC4 = elsparam->numZPlanesGNDLayerFC4();
+      for( int i=0; i<mynumZPlanesGNDLayerFC4; i++ ){
 	irGNDLayerFC4[i]=elsparam->irGNDLayerFC4(i);
         orGNDLayerFC4[i]=elsparam->orGNDLayerFC4(i);
         zGNDLayerFC4[i]=elsparam->zGNDLayerFC4(i);
@@ -2265,7 +2256,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
      solidGNDLayerFC4 = new G4Polycone("FC4GNDLayer",
 				        0.0*deg, 360.0*deg, 
-				        numZPlanesGNDLayerFC4, zGNDLayerFC4, irGNDLayerFC4, orGNDLayerFC4 );
+				       mynumZPlanesGNDLayerFC4, zGNDLayerFC4, irGNDLayerFC4, orGNDLayerFC4 );
 
       logicGNDLayerFC4 = new G4LogicalVolume( solidGNDLayerFC4, MaterialToughPitchCopper, 
                                               "FC4GNDLayer", 0, 0, 0 );

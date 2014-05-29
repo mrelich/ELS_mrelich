@@ -1,59 +1,89 @@
 #ifndef PhysicsList_h
-#define PhysicsList_h 1
+#define PhysicsList_h
+
+#include "G4Decay.hh"
+
+#include "G4KleinNishinaModel.hh"
+#include "G4StepLimiter.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4ProcessManager.hh"
+#include "G4UserSpecialCuts.hh"
+#include "G4Cerenkov.hh"
+#include "G4Scintillation.hh"
+#include "G4OpAbsorption.hh"
+#include "G4OpRayleigh.hh"
+#include "G4OpMieHG.hh"
+#include "G4OpBoundaryProcess.hh"
 
 #include "G4VUserPhysicsList.hh"
 #include "globals.hh"
+#include "G4ParticleTypes.hh"
+#include "G4ParticleTable.hh"
 
-#include "ELSParameters.hh"
+// Following includes copied from Example02
+// in novice examples from geant directory
+#include "G4PhysicsListHelper.hh"
 
-#include "ReadFile.hh"
+#include "G4ComptonScattering.hh"
+#include "G4GammaConversion.hh"
+#include "G4GammaConversionToMuons.hh"
+#include "G4PhotoElectricEffect.hh"
+#include "G4RayleighScattering.hh"
 
-#include "G4VModularPhysicsList.hh"
-#include "globals.hh"
 
-class G4VPhysicsConstructor;
-class PhysicsList: public G4VUserPhysicsList
+#include "G4eMultipleScattering.hh"
+#include "G4eIonisation.hh"
+#include "G4eBremsstrahlung.hh"
+#include "G4eplusAnnihilation.hh"
+
+#include "G4MuMultipleScattering.hh"
+#include "G4MuIonisation.hh"
+#include "G4MuBremsstrahlung.hh"
+#include "G4MuPairProduction.hh"
+
+#include "G4hMultipleScattering.hh"
+#include "G4hIonisation.hh"
+#include "G4hBremsstrahlung.hh"
+#include "G4hPairProduction.hh"
+
+#include "G4ionIonisation.hh"
+
+#include "G4EmStandardPhysics.hh"
+
+class PhysicsList : public G4VUserPhysicsList
 {
-public:
-  PhysicsList(Plist *plist);
+
+ public:
+  
+  PhysicsList();
   ~PhysicsList();
 
-protected:
-  //void ConstructParticle();
+ protected:
+  
+  // Construct particles
   void ConstructParticle();
-  void ConstructProcess();
-
-  void SetCuts();
-
-protected:
-  void ConstructHadrons();
   void ConstructBosons();
   void ConstructLeptons();
+  void ConstructHadrons();
 
-protected:
+  // Construct Processes
+  void ConstructProcess();
   void ConstructEM();
-  void ConstructMyEM(); // added in 2012.05.10 
-  void ConstructEM_Dmitri(); // added in 2013.04.23
-
-  // Added in 2011.12.31 , G4.9.4p02
-  void ConstructLEEM();
-
-  void ConstructHD();
-
-protected:  // added in 2012.09.24
   void ConstructOp();
-  void ConstructOp_OLD();  
+  void AddDecay();
 
-private: 
+  // Set cuts
+  void SetCuts();
 
-  // Added in 2011.12.31 , G4.9.4p02
-  G4VPhysicsConstructor*  emPhysicsList;
+  G4EmStandardPhysics* emStandard;
 
-  int Flag_PhotoNuclear_Process;  
-  int Flag_Cerenkov_Process;
-
-  double cutlenght_particle;
-};
-#endif
-
+  G4Cerenkov*          theCerenkovProcess;
+  G4Scintillation*     theScintillationProcess;
+  G4OpAbsorption*      theAbsorptionProcess;
+  G4OpRayleigh*        theRayleighScatteringProcess;
+  G4OpMieHG*           theMieHGScatteringProcess;
+  G4OpBoundaryProcess* theBoundaryProcess;
   
+};
+
+#endif

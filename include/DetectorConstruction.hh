@@ -19,6 +19,7 @@
 
 #include "globals.hh"
 #include "G4VUserDetectorConstruction.hh"
+#include "G4SystemOfUnits.hh"
 
 #include "ReadFile.hh"
 

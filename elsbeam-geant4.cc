@@ -33,6 +33,9 @@
 #include "G4VisExecutive.hh"
 #endif
 
+#include <sstream>
+#include <fstream>
+
 //----------------------------------------------------------------------//
 // Help Menu
 //----------------------------------------------------------------------//
@@ -52,10 +55,10 @@ void help()
   cout<<"\t\tSpecify the setup filename"<<endl;
   cout<<"\t-v <int>"<<endl;
   cout<<"\t\tSpecify visulization on or off (0 off, 1 on)"<<endl;
-  cout<<"\t-e"<<endl;
-  cout<<"\t\tTurn on energy dump option"<<endl;
-  cout<<"\t-i"<<endl;
-  cout<<"\t\tTurn on quick check method"<<endl;
+  cout<<"\t-tr"<<endl;
+  cout<<"\t\tSave Tracking Information"<<endl;
+  cout<<"\t-st"<<endl;
+  cout<<"\t\tSave Step Information"<<endl;
   cout<<"\t-h"<<endl;
   cout<<"\t\tPrint this menu"<<endl;
   cout<<endl;
@@ -93,16 +96,15 @@ int main(int argc,char** argv) {
       SetupFilename = argv[++i];
     else if( strcmp(argv[i], "-v") == 0 )
       visualization = atoi(argv[++i]);
-    else if( strcmp(argv[i], "-e") == 0 )
-      runOpt = (RunOption) (runOpt | RO_EnergyDump);
-    else if( strcmp(argv[i], "-q") == 0 )
-      runOpt = (RunOption) (runOpt | RO_QuickCheck);
+    else if( strcmp(argv[i], "-tr") == 0 )
+      runOpt = (RunOption) (runOpt | RO_Tracking);
+    else if( strcmp(argv[i], "-st") == 0 )
+      runOpt = (RunOption) (runOpt | RO_Stepping);
     else{
       help();
       return 0;
     }
   }//end loop over arguments
-
   
   //--------------------------------
   // Read Setup File
@@ -110,6 +112,18 @@ int main(int argc,char** argv) {
   plist = new Plist();
   plist->readfile(SetupFilename);
   //--------------------------------
+
+  // Make file name to save the output
+  std::stringstream ss;
+  ss << "els_" << number_of_Events;
+  ss << "_" << plist->primaryenergy(0);
+  std::ofstream trk_out;     // output file for tracks
+  std::ofstream step_out;    // output file for steps
+  if( runOpt & RO_Tracking )
+    trk_out.open(("Trk_Output/"+ss.str()+"_track.dat").c_str(),std::ofstream::out);
+  if( runOpt & RO_Stepping )
+    step_out.open(("Step_Output/"+ss.str()+"_step.dat").c_str(),std::ofstream::out);
+
   
   //my Verbose output class
   G4VSteppingVerbose::SetInstance(new SteppingVerbose( plist, runOpt ) );
@@ -122,8 +136,8 @@ int main(int argc,char** argv) {
   FCdetector->setup_detector_parameter(plist);
 
   runManager->SetUserInitialization(FCdetector);
-  //runManager->SetUserInitialization(new PhysicsList);
-  runManager->SetUserInitialization(new PhysicsList(plist));
+  runManager->SetUserInitialization(new PhysicsList);
+  //runManager->SetUserInitialization(new PhysicsList(plist));
 
   //========================
   G4UIsession* session=0;
@@ -153,22 +167,21 @@ int main(int argc,char** argv) {
 						       number_of_Particles));
 
   runManager->SetUserAction(new RunAction);
-  runManager->SetUserAction(new EventAction);
-  runManager->SetUserAction(new SteppingAction);
+  runManager->SetUserAction(new EventAction(&trk_out, &step_out));
+  runManager->SetUserAction(new SteppingAction(&step_out));
 
   //Initialize G4 kernel
   runManager->Initialize();
 
   // get the pointer to the User Interface manager
+  // *** I am stopping using verbose stuff. It spits
+  // out too much output when running and is quite
+  // slow.  I will now utilize EventAction and TrackingAction
   G4UImanager * UI = G4UImanager::GetUIpointer();
 
-  //=================================================
-
-  //=======================================
-
-  UI->ApplyCommand("/run/verbose 1");
-  UI->ApplyCommand("/tracking/verbose 1");
-  UI->ApplyCommand("/event/verbose 1");
+  //UI->ApplyCommand("/run/verbose 1");
+  //UI->ApplyCommand("/tracking/verbose 1");
+  //UI->ApplyCommand("/event/verbose 1");
 
   //======================================
   //if( visualization == 1 ){

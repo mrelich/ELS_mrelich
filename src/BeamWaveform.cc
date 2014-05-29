@@ -10,7 +10,7 @@ using namespace std;
 //------------------------------------------------
 Waveform::Waveform(){
 
-  time_t  t;
+  //time_t  t;
   srand( (unsigned) time(NULL) );
 
   Ntbin = 10000;
@@ -60,17 +60,17 @@ int Waveform::ReadWaveformFile( Plist *plist )
   NewNtbin = plist->ElectronBeam_Waveform_new_ntbin();
   Newdt = dt*double(Ntbin)/double(NewNtbin);
 
-  for( int i=0; i<Ntbin; i++ ){
-       NewWaveform[i/int(Ntbin/NewNtbin)]+=InputWaveform[i];
+  for( int j=0; j<Ntbin; j++ ){
+       NewWaveform[j/int(Ntbin/NewNtbin)]+=InputWaveform[j];
   }
 
   double max(0.);
-  for( int i=0; i<NewNtbin; i++ ){
-    if( NewWaveform[i] > max ) max=NewWaveform[i]; 
+  for( int j=0; j<NewNtbin; j++ ){
+    if( NewWaveform[j] > max ) max=NewWaveform[j]; 
   }
   NormalizationFactor=1.2*max;
-  for( int i=0; i<NewNtbin; i++ ){
-    NormalizedNewWaveform[i]=NewWaveform[i]/NormalizationFactor;
+  for( int j=0; j<NewNtbin; j++ ){
+    NormalizedNewWaveform[j]=NewWaveform[j]/NormalizationFactor;
   }       
 
   return 0;

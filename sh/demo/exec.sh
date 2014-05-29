@@ -1,33 +1,19 @@
 #!/bin/bash -f
-#########!/bin/tcsh -f
+
 
 
   #######################################################
   # Shower Generator for ELS RUN 0
   #######################################################
 
-  NEV=1 # Number of Incident electron
-  #NEV=10 # Number of Incident electron
+  NEV=2 # Number of events to generate
+  #NEV=300 # Number of events to generate
   SETF=./dat-set/setupfile-elssim.dat
+  NP=1 # Number of incident electron
 
   date 
 
-  ./elssim.sh $NEV $SETF
-
-     rm ./detector-plane.dat
-     #rm ./dedx.dat
-     rm ./generator.dat
-     #rm ./energydeposit.dat
-     rm ./screenmonitor3.dat
-     rm ./initialbeamenergy.dat
-     #rm ./cerenkov.dat
-     #rm ./debug-output.dat
-     #rm ./geant4-air-condition.dat
-     rm ./faradaycup_capture.dat  
-     rm ./faradaycup.dat
-
-     #rm ./eventnumber.dat
-     
+  ./elssim.sh $NEV $SETF $NP
 
   date 
 
